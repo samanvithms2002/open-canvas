@@ -1,0 +1,18 @@
+fastapi
+uvicorn[standard]
+pydantic
+pydantic-settings
+python-dotenv
+langgraph
+langchain
+langchain-core
+langchain-openai
+langchain-anthropic
+langchain-community
+langchain-exa
+exa-py
+aiohttp
+pypdf
+tiktoken
+# supabase # Optional, not directly used by Python backend yet
+# langsmith # Optional for tracing
