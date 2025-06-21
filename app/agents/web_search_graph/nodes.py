@@ -7,6 +7,7 @@ import uuid # For fallback ID in search_node
 
 from langchain_core.messages import BaseMessage, SystemMessage, HumanMessage # type: ignore
 from langchain_anthropic import ChatAnthropic
+from langchain_google_genai import ChatGoogleGenerativeAI # Using Google GenAI as per the latest setup
 from langchain_exa import ExaSearchResults
 
 from .state import WebSearchState
@@ -30,9 +31,9 @@ async def classify_message_node(state: WebSearchState, config: Optional[Dict[str
     # Using ChatAnthropic as per TS, with structured output for classification
     # Model from TS: claude-3-5-sonnet-latest (formerly claude-3-sonnet)
     # Temperature 0 for consistent classification.
-    model = ChatAnthropic(
-        model="claude-3-5-sonnet-20240620",
-        temperature=0
+    model = ChatGoogleGenerativeAI(
+        model="gemini-2.5-pro", # Or other suitable Claude model
+        temperature=0,
     ).with_structured_output(ClassificationSchema, name="classify_message_for_web_search") # type: ignore
 
     if not state.get("messages"):
@@ -67,7 +68,10 @@ async def classify_message_node(state: WebSearchState, config: Optional[Dict[str
 async def query_generator_node(state: WebSearchState, config: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
     print("Executing Node: query_generator (WebSearchGraph)")
     # Model from TS: claude-3-5-sonnet-latest, temperature 0
-    model = ChatAnthropic(model="claude-3-5-sonnet-20240620", temperature=0)
+    model = ChatGoogleGenerativeAI(
+        model="gemini-2.5-pro", # Or other suitable Claude model
+        temperature=0,
+    )
 
     # Python equivalent of date-fns format(new Date(), "PPpp")
     # Example: "May 20th, 2024 at 3:30:25 PM" -> "%B %d, %Y at %I:%M:%S %p"
